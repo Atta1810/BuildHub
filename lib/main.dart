@@ -586,3 +586,179 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+
+class BundlesScreen extends StatelessWidget {
+  final Function(ThemeMode) onThemeChanged;
+  final ThemeMode currentTheme;
+
+  const BundlesScreen({
+    Key? key,
+    required this.onThemeChanged,
+    required this.currentTheme,
+  }) : super(key: key);
+
+  final List<Map<String, String>> bundles = const [
+    {
+      'name': 'Black Panther',
+      'price': '149,000 EGP',
+      'specs': 'Z790 ASUS PROART Wi-Fi, Intel Core i9-14900K, RAM 2x32GB 6000MHz...',
+    },
+    {
+      'name': 'Shadow Wolf',
+      'price': '92,000 EGP',
+      'specs': 'B760 MSI Tomahawk, Intel Core i7-13700K, RAM 2x16GB 5600MHz...',
+    },
+    {
+      'name': 'Crimson Dragon',
+      'price': '118,000 EGP',
+      'specs': 'X670 ASUS ROG STRIX, Ryzen 9 7950X, RAM 2x32GB 6000MHz, WD Black...',
+    },
+    {
+      'name': 'Cyber Falcon',
+      'price': '67,000 EGP',
+      'specs': 'B660 ASUS PRIME, Intel Core i5-12400F, RAM 2x16GB 5200MHz...',
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: isDark ? Colors.white : const Color(0xFF2D2D2D),
+            size: 20,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Image.asset(
+          'assets/images/logo.png',
+          height: 35,
+          fit: BoxFit.contain,
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                color: const Color(0xFFE07856).withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Icon(Icons.inventory_2_rounded, size: 16, color: Color(0xFFE07856)),
+                  SizedBox(width: 8),
+                  Text(
+                    'COLLECTIONS',
+                    style: TextStyle(
+                      color: Color(0xFFE07856),
+                      fontWeight: FontWeight.w900,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            RichText(
+              text: TextSpan(
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w900,
+                  color: isDark ? Colors.white : const Color(0xFF1A1A1A),
+                ),
+                children: const [
+                  TextSpan(text: 'Quick '),
+                  TextSpan(
+                    text: 'Bundles',
+                    style: TextStyle(color: Color(0xFFE07856)),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: bundles.length,
+              itemBuilder: (context, index) {
+                final bundle = bundles[index];
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 25),
+                  decoration: BoxDecoration(
+                    color: isDark ? const Color(0xFF1C1C1B) : Colors.white,
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(
+                      color: isDark ? Colors.grey[900]! : Colors.black.withOpacity(0.03),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 220,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [Color(0xFF1A1A1A), Color(0xFF434343)],
+                          ),
+                          borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
+                        ),
+                        child: Center(
+                          child: Icon(Icons.desktop_windows_rounded, size: 80, color: Colors.white),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              bundle['name']!,
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w900,
+                                color: isDark ? Colors.white : const Color(0xFF1A1A1A),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              bundle['price']!,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFE07856),
+                              ),
+                            ),
+                            const SizedBox(height: 15),
+                            Text(
+                              bundle['specs']!,
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: isDark ? Colors.grey[400] : Colors.grey[600],
+                                height: 1.6,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
